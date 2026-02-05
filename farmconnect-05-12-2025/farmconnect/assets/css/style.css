@@ -1,0 +1,255 @@
+/* page intro (blue banner below header) */
+.page-intro{position:relative;padding:54px 0 36px;background:var(--primary-color)}
+.page-intro .page-intro-overlay{position:absolute;inset:0;background:linear-gradient(90deg, rgba(17,104,53,0.88), rgba(17,104,53,0.5));opacity:0.95}
+.page-intro h1, .page-intro p{position:relative;z-index:2;color:#fff}
+
+.prefooter{position:relative;background-size:cover;background-position:center}
+.prefooter .prefooter-overlay{position:absolute;inset:0;background:linear-gradient(90deg, rgba(17,104,53,0.78), rgba(17,104,53,0.78));z-index:0}
+.prefooter .btn-warning{background:#ff9b1c;border:0;border-radius:6px;padding:12px 22px;font-weight:700}
+
+/* Reveal animation */
+.reveal{opacity:1;transform:none;transition:all .6s cubic-bezier(.2,.9,.2,1)}
+/* Show cards by default so content is visible immediately */
+.card-modern, .feature-item{opacity:1;transform:none}
+
+/* style.css - custom styles for FarmConnect */
+:root{
+    --sidebar-height:64px;
+    --green:#2D7A2D;
+    --green-soft:#E8F5E9;
+    --bg:#F4FFF4;
+    --muted:#587463;
+    --primary-color: var(--green);
+    /* footer background set to a soft green (restored to FarmConnect theme) */
+    --footer-bg: #E8F5E9;
+}
+html,body{height:100%;}
+body{display:flex;flex-direction:column;font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:#073018}
+.site-header{height:var(--sidebar-height);padding:0 1rem;/* transparent header as requested */border-bottom:0;background:transparent;box-shadow:none;display:flex;align-items:center;justify-content:space-between}
+.site-header .logo{height:48px;width:auto;max-width:180px}
+.site-title{font-weight:700;color:var(--green);font-size:1.05rem}
+
+/* Desktop top nav (right side of header) */
+.top-nav{display:none;gap:12px}
+.top-nav .nav-link{color:rgba(8,40,24,0.85);font-weight:600;padding:8px 10px;border-radius:6px;text-transform:uppercase;letter-spacing:0.04em}
+.top-nav .nav-link:hover{color:var(--green);background:rgba(45,122,45,0.06)}
+.top-nav .nav-link.active{color:var(--green);font-weight:800;text-decoration:underline;text-underline-offset:6px;background:transparent}
+/* CTA styling in the top nav */
+.top-nav .nav-link.btn{background:var(--green) !important;color:#fff !important;padding:8px 14px;border-radius:8px;margin-left:18px;text-transform:none}
+.top-nav .nav-link.btn:hover{filter:brightness(.95)}
+
+/* Mobile slide-out aside (hidden on desktop) */
+.sidebar{display:none}
+
+/* Main content adjustments */
+.main-content{margin-top:var(--sidebar-height);flex:1;min-height:calc(100vh - var(--sidebar-height));padding:60px 24px 120px;overflow:visible}
+
+/* Hero banner */
+.hero{min-height:520px;border-radius:12px;overflow:hidden;position:relative;display:flex;align-items:center;color:#fff}
+.hero .overlay{position:absolute;inset:0;background:linear-gradient(90deg, rgba(17,104,53,0.65), rgba(17,104,53,0.25));}
+.hero .hero-content{position:relative;z-index:2;padding:60px}
+.hero .hero-illustration{max-width:540px;border-radius:12px;box-shadow:0 12px 40px rgba(6,30,18,0.25)}
+
+/* Sections */
+.section{padding:60px 0}
+.section .section-title{font-weight:700;color:#0b3a24;margin-bottom:18px}
+.card-modern{border-radius:12px;box-shadow:0 8px 24px rgba(10,45,20,0.06);border:0;position:relative;z-index:0}
+
+/* Feature tiles */
+.feature-item img{width:100%;height:160px;object-fit:cover;border-radius:8px}
+
+/* FAQ banner */
+.faq-banner{border-radius:10px;overflow:hidden;height:160px}
+
+.site-footer{position:static;background:var(--footer-bg);padding-top:36px;padding-bottom:36px;margin-top:48px;z-index:auto}
+.site-footer ul li{margin-bottom:8px}
+.site-footer .fa-2x{opacity:0.95}
+.site-footer a{text-decoration:none}
+
+/* Footer links grid adjustments */
+.footer-links-grid .col-3{padding:6px 8px}
+.footer-links-grid a{color:var(--green);font-weight:600}
+
+/* Responsive: mobile slide panel from right */
+@media (max-width: 991.98px){
+    .top-nav{display:none}
+    /* Mobile slide-out aside: make it fixed so it overlays the page */
+    .sidebar{display:block;position:fixed;top:0;right:0;left:auto;background:#fff;height:100%;width:280px;padding-top:80px;transform:translateX(110%);transition:transform .28s ease;border-left:1px solid rgba(0,0,0,0.04);box-shadow:-8px 0 30px rgba(6,30,18,0.12);z-index:1200}
+    .sidebar.open{transform:translateX(0)}
+    /* Backdrop that appears behind the sidebar (created via JS) */
+    .sidebar-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:1100;opacity:0;transition:opacity .2s ease}
+    .sidebar-backdrop.show{opacity:1}
+    .sidebar .nav{flex-direction:column;padding:12px}
+    .main-content{margin-top:var(--sidebar-height);padding:32px 16px 80px}
+    .hero{min-height:360px}
+}
+
+@media (min-width: 992px){
+    .top-nav{display:flex}
+}
+
+/* Tighten spacing for tablet and smaller devices */
+@media (max-width: 991.98px) {
+    .site-header{height:56px}
+    .site-header .logo{height:40px}
+    .section{padding:36px 0}
+    .section .section-title{margin-bottom:14px}
+    .prefooter-inner{padding:40px 0}
+    .card-modern{padding:14px}
+}
+
+/* Further tighten for small phones */
+@media (max-width: 575.98px) {
+    .site-header{height:52px}
+    .site-header .logo{height:36px}
+    .main-content{padding:20px 12px 48px}
+    .section{padding:24px 0}
+    .section .section-title{font-size:1.05rem}
+    .section-title.larger-title{font-size:1.6rem}
+    .prefooter-inner{padding:24px 0}
+    .card-modern{padding:12px}
+    .hero .hero-content{padding:28px}
+}
+
+/* Ensure the Request Demo button in the nav is always visible and styled */
+.top-nav .nav-link.btn{background:var(--green) !important;color:#fff !important;padding:8px 12px;border-radius:6px;display:inline-block}
+.top-nav .nav-link.btn:hover{filter:brightness(.95)}
+
+/* Make mobile sidebar button full width and visible */
+.sidebar .nav-link.btn{display:block!important;width:100%;text-align:center;color:#fff;background:var(--green);border-radius:6px;padding:10px 12px}
+
+/* Typography adjustments */
+h1,h2,h3,h4{color:#0b3a24}
+.text-muted{color:var(--muted)}
+
+/* images default */
+img[alt*="placeholder"]{background:#e9f7ee;border-radius:8px}
+
+/* --- Overlap fixes ----------------------------------------------------- */
+/* Ensure main content reserves space so footer/prefooter never covers content. */
+
+
+/* Sections should sit above the prefooter visually. */
+.main-content .section{position:relative;z-index:1}
+
+/* Reset any previous last-of-type margin hacks. */
+.main-content .container > .section:last-of-type{margin-bottom:0}
+
+/* Prefooter: keep in normal flow; background image applied via CSS. Use an inner element
+    (.prefooter-inner) to apply a solid overlay so it cannot stack above earlier content. */
+.prefooter{position:relative;z-index:auto;background-image:url('assets/img/hero-farm.svg');background-size:cover;background-position:center}
+.prefooter .prefooter-overlay{display:none !important}
+.prefooter-inner{background:#1f6b3f;padding:60px 0}
+.prefooter-inner h3,.prefooter-inner p{color:#fff}
+
+/* Farmland banner overlay should not block content */
+.farmland-banner{position:relative}
+.farmland-banner .overlay{position:absolute;inset:0;z-index:-1;pointer-events:none}
+/* Spacer placed before prefooter to guarantee separation from page content */
+.prefooter-spacer{height:40px;display:block}
+
+@media (max-width:991.98px){
+    .prefooter-spacer{height:220px}
+}
+
+/* Solid block fallback for content that might sit above translucent bands */
+.solid-block{background:#ffffff;border-radius:10px;padding:18px;box-shadow:0 6px 20px rgba(6,30,18,0.04)}
+
+.site-footer{position:relative;z-index:0}
+
+/* Keep focus-section as a normal block */
+.focus-section{position:relative;z-index:10;background:var(--bg);padding-top:30px;padding-bottom:30px}
+/* ----------------------------------------------------------------------- */
+
+/* Light green section used for components and initiatives to match site theme */
+.bg-green-section{
+    /* Explicit soft green background requested by user */
+    background: #E8F5E9 !important;
+    background-image: none !important;
+    padding-top:48px !important;
+    padding-bottom:48px !important;
+    border-top:2px solid rgba(45,122,45,0.12) !important;
+    border-bottom:2px solid rgba(45,122,45,0.08) !important;
+    /* Make the band pop more: an inset highlight and soft outer shadow */
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 6px 18px rgba(10,45,20,0.03) !important;
+    min-height: 160px !important;
+}
+
+/* Ensure any inner container doesn't introduce a white background that hides the band */
+.bg-green-section > .container,
+.bg-green-section .container-fluid {
+    background: transparent !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+}
+
+.bg-green-section .section-title{color:var(--green);font-weight:800}
+
+/* Page-specific utility: slightly larger, centered section title */
+.section-title.larger-title{font-size:2.1rem;line-height:1.15;text-align:center;margin-bottom:18px;font-weight:800}
+
+/* ===== FOOTER FIX ===== */
+
+/* Ensure body takes full height */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+/* Use flexbox to push footer down */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Main content should expand to fill space */
+.main-content {
+    flex: 1 0 auto; /* Grow and shrink, but don't shrink below content */
+    padding-bottom: 60px; /* Reasonable padding */
+}
+
+/* Footer stays at bottom */
+.site-footer {
+    flex-shrink: 0; /* Don't shrink footer */
+    margin-top: auto; /* Push to bottom */
+    background: var(--footer-bg);
+    position: relative;
+    z-index: 10; /* Ensure footer is above content */
+}
+
+/* Reduce the spacer height */
+.prefooter-spacer {
+    height: 60px !important;
+}
+
+/* Ensure all content sections have proper stacking */
+.section {
+    position: relative;
+    z-index: 1; /* Normal stacking */
+}
+
+/* Prefooter should stay in normal flow */
+.prefooter {
+    position: relative;
+    z-index: 2;
+}
+
+/* For the specific "What is FarmConnect?" section */
+.solid-block {
+    position: relative;
+    z-index: 1;
+    background: #ffffff;
+}
+
+@media (max-width: 991.98px) {
+    .prefooter-spacer {
+        height: 40px !important;
+    }
+    .main-content {
+        padding-bottom: 40px;
+    }
+}
+
+/* prevent body scroll when sidebar open */
+.no-scroll, .no-scroll body {overflow: hidden;}

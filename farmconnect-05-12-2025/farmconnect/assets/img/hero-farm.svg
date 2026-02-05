@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1">
+      <stop offset="0" stop-color="#2D7A2D" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#1e5b25" stop-opacity="0.5"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="600" fill="#9FD19A"/>
+  <g transform="translate(60,60) scale(0.8)">
+    <rect x="0" y="200" width="1040" height="260" rx="18" fill="#fff" opacity="0.06"/>
+    <g fill="#fff" opacity="0.12">
+      <circle cx="200" cy="240" r="80"/>
+      <circle cx="420" cy="220" r="60"/>
+      <circle cx="780" cy="260" r="90"/>
+    </g>
+    <text x="40" y="120" fill="#fff" font-size="36" font-family="Poppins, sans-serif">Farm fields under a bright sky</text>
+  </g>
+</svg>

@@ -1,0 +1,277 @@
+Project Summary
+1. Project Summary
+FarmConnect is a server-rendered PHP website that helps smallholder farmers access localized weather forecasts, verified market prices, buyer connections, and timely alerts. Core users: farmers (primary), buyers/aggregators (secondary), administrators (manage data & reports), and guests (informational + demo requests).
+
+2. Complete Sitemap
+- /index.php (Landing)
+- /about.php
+- /features.php (Full features list)
+- /benefits.php
+- /faq.php
+- /contact.php
+- /request_demo.php
+- /assets/css/style.css
+- /assets/js/main.js
+- /assets/img/*
+- /includes/header.php
+- /includes/sidebar.php
+- /includes/intro.php
+- /includes/footer.php
+- /admin/* (optional admin pages: login.php, dashboard.php, reports.php)
+
+3. File & Folder Structure
+farmconnect/
+  index.php
+  about.php
+  features.php
+  benefits.php
+  faq.php
+  contact.php
+  request_demo.php
+  README.md
+  FARMCONNECT_DESIGN.txt
+  assets/
+    css/
+      style.css
+    js/
+      main.js
+    img/
+      (hero-farm.svg, hero-illustration.svg, icons...)
+  includes/
+    header.php
+    sidebar.php
+    intro.php
+    footer.php
+  logs/
+    messages.log
+    demos.log
+  sql/
+    schema.sql
+  admin/
+    login.php
+    dashboard.php
+    reports.php
+
+4. Landing Page DOM Structure (ordered)
+Step 1: Header (include `includes/header.php`)
+  - logo left (img + anchor to index)
+  - top-right horizontal nav on desktop (ul.nav > li > a)
+  - hamburger button visible on mobile to open slide-out `includes/sidebar.php`
+  - ensure accessible markup (nav role, aria-current for active link)
+
+Step 2: Hero section (full-width)
+  - large farmland banner image background
+  - headline (H1), subheadline (p), primary CTA (Request Demo), secondary CTA (Learn More)
+  - mobile responsive stack (image below text or side-by-side depending on width)
+
+Step 3: After Request Demo CTA — Farmland image + Partial Introduction
+  - Full-width farmland image block (or large banner)
+  - Partial introduction block (same copy used in `about.php`) inside a container
+  - Learn More button linking to `/about.php`
+
+Step 4: System Key Components & Initiatives
+  - Section title (H2/H3)
+  - Short description
+  - Grid of items (5 items): Digitalization, Community Participation, Resource Management, Capacity Building, Monitoring & Evaluation. Each item: icon + title + 1-line description
+
+Step 5: System Key Features Preview
+  - Section title + 3–6 bulleted feature summaries
+  - Image/screenshot on the right (or below on mobile)
+  - Button: Full List of Features -> `/features.php`
+
+Step 6: Reports & Summary Preview
+  - 2–3 visual placeholders: Yield Summary, Market Prices, Downloadable Reports
+  - CTA or link to admin reports (if appropriate)
+
+Step 7: Pre-footer Banner
+  - Full-width colored band with short callout and Request Demo button
+  - Implement as CSS background on .prefooter with an inner container for text (prevents overlapping content)
+
+Step 8: Footer (include `includes/footer.php`)
+  - left: link grid (Home, About, Features, Benefits; second row Free Demo, FAQ, Contact, Request Demo)
+  - center: social icons
+  - right: copyright & powered-by
+  - ensure semantic footer HTML and accessible links
+
+5. About Page Layout (step-by-step)
+- include `includes/header.php` + `includes/intro.php` (use shared intro content)
+- main container: two-column layout
+  - left column: About copy, mission & vision (optional), why we built it
+  - right column: illustrative images (hero-illustration, weather, market)
+- optional team or partners block below
+- include `includes/footer.php`
+
+6. Features Page & Full Features List
+6.1 Full Feature List (each feature = title + 1-line description):
+  - Localized Weather Forecasting: High-resolution, location-based short & medium-range forecasts.
+  - Climate Pattern Alerts: Seasonal and climate anomaly alerts for planning.
+  - Market Price Index: Aggregated verified market prices across nearby markets.
+  - Verified Buyer Directory: Profiles and contact channels for buyers/aggregators.
+  - Pest & Disease Notifications: Early warnings and recommended actions.
+  - Direct Farm-to-Buyer Marketplace: Post produce listings, offers, and match-making.
+  - Reports & Summary Tools: Downloadable yield, price and trade reports.
+  - User Management: Farmers, buyers, admins with roles & permissions.
+  - Demo Requests: Collect demo submissions and manage scheduling.
+  - Contact Form: Messages logged and emailed to admin.
+  - Admin Reports: Weekly/monthly usage and market reports.
+  - Notifications: SMS/Email/Push hooks (optional integration)
+
+7. Benefits Page layout
+- Hero / summary of benefits
+- Grid of benefit cards (e.g., Better Pricing, Lower Post-harvest Loss, Faster Decisions, Market Access)
+- Case studies or testimonials block
+- CTA: Request Demo
+
+8. FAQ, Contact, and Request Demo
+- FAQ: Accordion (question & answer); include schema.org markup for FAQPage
+- Contact Form fields: name, email, phone, subject, message (server-side: validate, sanitize, log, email)
+- Request Demo Form fields: name, organization, farm location (province/city), phone, email, preferred date/time, notes
+  - Server action: validate, log to `logs/demos.log`, send email (or create DB record for admin review)
+
+9. UI Components & Behaviour
+- Header: `includes/header.php`
+  - Logo left; nav rendered by `includes/sidebar.php` (desktop top-nav & mobile aside)
+  - Provide server-side active state: in PHP, compare basename($_SERVER['PHP_SELF']) to menu URLs and add `class="active"`.
+- Top-right nav (desktop): horizontal UL; use CSS to float right; ensure Request Demo button styled as CTA
+- Mobile hamburger: toggles slide-out `aside.sidebar` that contains nav links and Request Demo button (accessible: aria-controls, aria-expanded)
+- Intro banner: include `includes/intro.php` after header for about/features/benefits etc.
+- Pre-footer: `.prefooter` uses background-image in CSS and inner `.prefooter-inner` with solid overlay background so it cannot overlap prior content.
+- Footer: structured links; ensure proper semantic markup.
+
+Active-class logic (server-side sample):
+<?php
+$menu = ['index.php'=>'Home','about.php'=>'About', ...];
+foreach($menu as $file=>$label){
+  $active = basename($_SERVER['PHP_SELF'])===$file ? 'active' : '';
+  echo "<li class=\"nav-item\"><a class=\"nav-link $active\" href=\"$file\">$label</a></li>\n";
+}
+?>
+
+10. Database Schema
+(Use MySQL / MariaDB)
+Tables:
+- users
+  - id PK, name, email (unique), password_hash, role (enum: farmer,buyer,admin), phone, created_at, updated_at
+- demo_requests
+  - id PK, user_id nullable, name, org, phone, email, location, preferred_datetime, notes, status, created_at
+- messages
+  - id PK, name, email, phone, subject, message, ip, created_at
+- features (optional CMS)
+  - id, title, summary, content, image_path, created_at
+- market_prices
+  - id, commodity, market_name, price, unit, recorded_at, source
+- alerts
+  - id, alert_type, title, details, region, severity, publish_at
+- reports (meta)
+  - id, report_type, title, file_path, created_at
+- logs (or use app logs)
+  - id, event_type, payload JSON, created_at
+
+11. API Endpoints (brief)
+- GET /api/v1/weather?lat=&lon= -> localized forecast
+- GET /api/v1/markets?location= -> nearby market prices
+- GET /api/v1/buyers?query= -> buyer directory
+- POST /api/v1/contact -> submit contact
+- POST /api/v1/demo -> submit demo request
+- GET /api/v1/features -> feature list
+- Auth endpoints (POST /api/v1/login, POST /api/v1/logout)
+
+12. Security & Validation Checklist
+- Use parameterized queries (PDO prepared statements) to prevent SQL injection.
+- Validate & sanitize all inputs (filter_var, regex) and escape output (htmlspecialchars).
+- CSRF protection: add tokens to forms and validate on submit.
+- Password hashing: password_hash/password_verify (bcrypt/argon2).
+- HTTPS: enforce HTTPS in production and HSTS header.
+- File uploads: restrict mime types, size limits, store outside webroot or with randomized names.
+- Rate limiting for forms (simple throttle by IP) to limit spam.
+- Access control: restrict admin pages by role.
+- Logs: store sensitive logs securely; do not log passwords.
+
+13. Accessibility & Performance Checklist
+Accessibility:
+- Use semantic HTML (header, nav, main, footer, section, h1..h6)
+- Provide alt text for images.
+- Ensure keyboard navigation (focus states for menu and buttons).
+- aria-expanded on hamburger and aria-controls linking to slide-out menu.
+- Contrast ratios >= WCAG AA for text vs background.
+- Use skip-to-content link at top.
+Performance:
+- Serve compressed assets (gzip/ brotli via server config).
+- Use optimized images (SVGS for icons; webp for photos where possible).
+- Minify CSS/JS for production; use caching headers.
+- Lazy-load below-the-fold images.
+
+14. Development milestones & Implementation Checklist
+Milestone 1 — MVP (core public site + forms)
+  - Create includes: `includes/header.php`, `includes/sidebar.php`, `includes/intro.php`, `includes/footer.php` (files: implement layout, nav, logo)
+  - Implement `assets/css/style.css` (layout, header, nav, hero, prefooter, footer)
+  - Implement `assets/js/main.js` (mobile menu toggle, active-class syncing)
+  - Implement `index.php`, `about.php`, `features.php`, `contact.php`, `request_demo.php`
+  - Implement server-side handling for contact & demo forms (log + optional email)
+  - Add `sql/schema.sql` with core tables (users, messages, demo_requests)
+  - Test responsive behavior and accessibility basics
+
+Milestone 2 — Admin & Data
+  - Admin login and protected dashboard
+  - Implement reports listing and exports
+  - Add market_prices ingestion (CSV or admin UI)
+
+Milestone 3 — Integrations & Mobile API
+  - Implement API endpoints for weather, markets, buyers
+  - Add notification hooks (email/SMS)
+
+Milestone 4 — Polish & Deployment
+  - Replace placeholder assets with production images
+  - Add automated tests, CI for lint & PHPStan (optional)
+  - Prepare deployment (Apache/Nginx config, HTTPS)
+
+15. Deliverables Copilot will generate (for you)
+- Skeleton `includes/header.php`, `includes/sidebar.php`, `includes/intro.php`, `includes/footer.php` with markup and server-side active-class logic
+- Example `index.php` with full landing structure described above
+- `assets/css/style.css` snippets for header, mobile menu, prefooter, footer
+- `assets/js/main.js` for mobile menu toggle and active synchronization
+- `sql/schema.sql` containing CREATE TABLE statements for core tables
+- `README.md` with run instructions (XAMPP/Apache), development checklist, and verification steps
+
+Ordered Implementation Steps (numbered)
+1. Step 1 - Create folder structure and repo README
+   - mkdir assets/{css,js,img} includes sql admin logs
+   - add README.md (run instructions)
+2. Step 2 - Create `includes/header.php`
+   - markup: <header> logo left, include top-nav (uses sidebar.php items). Add hamburger button (button aria-controls) for mobile.
+3. Step 3 - Create `includes/sidebar.php`
+   - render menu array server-side and output both .top-nav (desktop) and .sidebar aside (mobile). Ensure active class logic.
+4. Step 4 - Create `includes/intro.php`
+   - reusable intro block: title + subtitle + optional background variant.
+5. Step 5 - Create `includes/footer.php`
+   - prefooter spacer + .prefooter + .prefooter-inner + footer grid
+6. Step 6 - Create `assets/css/style.css` (mobile-first)
+   - header styles, .top-nav, .sidebar, hero, .page-intro, .prefooter, .site-footer, .card-modern, responsive breakpoints
+7. Step 7 - Create `assets/js/main.js`
+   - mobile toggle, set aria-expanded, synchronize active links, optional IntersectionObserver for non-essential animation (avoid hiding content)
+8. Step 8 - Implement `index.php`
+   - include header + intro; implement hero; insert farmland banner + partial intro; add sections for components, features preview, reports; include footer
+9. Step 9 - Implement `about.php`, `features.php`, `benefits.php`, `faq.php`, `contact.php`, `request_demo.php`
+   - use `includes/intro.php` where appropriate; implement forms with CSRF tokens and server-side validation
+10. Step 10 - Add SQL schema
+   - add `sql/schema.sql` and create DB; test DB connection with a small PHP script
+11. Step 11 - Implement contact & demo form handlers
+   - validate, save in DB (or log), and send confirmation email to admin (configurable)
+12. Step 12 - Test responsive & accessibility
+   - keyboard navigation, screen reader check, contrast check
+13. Step 13 - Deploy to staging with HTTPS
+   - configure Apache/Nginx, enable gzip/Brotli, set caching headers
+14. Step 14 - Optional API & Admin
+   - implement mobile API endpoints and admin UI
+
+Notes & Assumptions
+- Using Bootstrap 5 (CDN) for grid/layout — file examples will reference Bootstrap classes.
+- For email in local dev, use logging to files and optional SMTP configuration for production.
+- Keep styling minimal and reusable; prefer CSS variables and BEM-like classes.
+
+If you want, I can now:
+A) Create the skeleton files and assets listed under Milestone 1 in your workspace (includes/*, index.php, assets files, sql/schema.sql).
+B) Output the SQL schema file next.
+C) Generate the README.md with run instructions.
+
+Reply with which of A/B/C you'd like me to generate now and I'll create the files.
